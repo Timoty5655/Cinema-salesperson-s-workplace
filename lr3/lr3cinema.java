@@ -30,7 +30,7 @@ void main() {
             }
         }
 
-        boolean is3D = readYesNo(scanner, "Це 3D-сеанс? (так/ні): ");
+        boolean is3D = readYesNo(scanner, "Це 3D-сеанс? (так/ні або y/n): ");
 
         // Обчислення (без змін відносно ЛР1)
         final double surcharge3D = 30.0;
@@ -128,13 +128,20 @@ double readDouble(Scanner scanner, String prompt) {
     }
 }
 
-// Читає "так"/"ні"
+// Читає відповідь: "так"/"y"/"yes" або "ні"/"n"/"no"
+// Англійські варіанти працюють навіть тоді, коли консоль неправильно кодує українські літери
 boolean readYesNo(Scanner scanner, String prompt) {
     while (true) {
         System.out.print(prompt);
         String answer = scanner.nextLine().trim();
-        if (answer.equalsIgnoreCase("так")) return true;
-        if (answer.equalsIgnoreCase("ні")) return false;
-        System.out.println("Введіть \"так\" або \"ні\".");
+        if (answer.equalsIgnoreCase("так") || answer.equalsIgnoreCase("y")
+                || answer.equalsIgnoreCase("yes")) {
+            return true;
+        }
+        if (answer.equalsIgnoreCase("ні") || answer.equalsIgnoreCase("n")
+                || answer.equalsIgnoreCase("no")) {
+            return false;
+        }
+        System.out.println("Введіть \"так\"/\"ні\" або y/n.");
     }
 }
