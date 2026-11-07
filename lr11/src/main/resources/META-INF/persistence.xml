@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="cinema" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>ua.cinema.model.Movie</class>
+        <class>ua.cinema.model.Screening</class>
+        <!-- лише перелічені класи: BrokenMovie (демо помилки validate) сюди не потрапляє -->
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <!-- З'єднання: JpaUtil передає готовий DataSource (пул HikariCP з ЛР №10) через
+                 jakarta.persistence.nonJtaDataSource, параметри БД - в application.properties -->
+
+            <!-- Схему створює init.sql, Hibernate лише перевіряє відповідність сутностей таблицям -->
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.highlight_sql" value="false"/>
+
+            <!-- Лічильники запитів для демонстрації N+1 -->
+            <property name="hibernate.generate_statistics" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
